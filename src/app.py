@@ -21,7 +21,7 @@ def create_store():
   }
   stores.append(new_store)
   return jsonify(new_store)
-  #pass
+  
 
 #get /store/<name> data: {name :}
 @app.route('/store/<string:name>')
@@ -30,13 +30,13 @@ def get_store(name):
     if store['name'] == name:
           return jsonify(store)
   return jsonify ({'message': 'store not found'})
-  #pass
+  
 
 #get /store
 @app.route('/store')
 def get_stores():
   return  jsonify(stores)
-  #pass
+  
 
 #post /store/<name> data: {name :}
 @app.route('/store/<string:name>/item' , methods=['POST'])
@@ -51,7 +51,7 @@ def create_item_in_store(name):
         store['items'].append(new_item)
         return jsonify(new_item)
   return jsonify ({'message' :'store not found'})
-  #pass
+  
 
 #get /store/<name>/item data: {name :}
 @app.route('/store/<string:name>/item')
@@ -61,6 +61,6 @@ def get_item_in_store(name):
         return jsonify( {'items':store['items'] } )
   return jsonify ({'message':'store not found'})
 
-  #pass
+  
 
 app.run(port=5000)

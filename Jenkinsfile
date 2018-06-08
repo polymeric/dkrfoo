@@ -8,7 +8,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'python -m py_compile sources/app.py'
+                sh 'python -m py_compile src/app.py'
             }
         }
         stage('Test') {
