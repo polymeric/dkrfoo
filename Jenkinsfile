@@ -5,12 +5,14 @@ pipeline {
             agent { dockerfile true }
             steps{
                 sh 'env'               
+                sh 'docker-compose up'
             }
         }
         stage('Test') {
             agent {
                 docker {
                     image 'qnib/pytest'
+                    args '-p 5000:5000'
                 }
             }
             steps {
