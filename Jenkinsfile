@@ -2,11 +2,11 @@ pipeline {
     agent none
     stages {
         stage ('Build') {
-            /* agent { dockerfile true } */
-            agent { dockerfile true }
+            agent { dockerfile
+                additionalBuildArgs '-p 5000:5000 --network=host --tag=dkrsrv'
+            }
             steps{
                 sh 'env'               
-                sh 'docker-compose up'
             }
         }
         stage('Test') {
