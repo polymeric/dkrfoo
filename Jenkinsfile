@@ -4,7 +4,7 @@ pipeline {
         stage ('Build') {
             agent { 
                 dockerfile {
-                    additionalBuildArgs '--network=host --tag=dkrsrv'
+                    additionalBuildArgs '--network host --tag=dkrsrv'
                 }
             }
             steps{
