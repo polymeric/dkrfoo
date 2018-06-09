@@ -8,7 +8,6 @@ pipeline {
                 }
             }
             steps{
-                sh 'env'               
             }
         }
         stage('Test') {
