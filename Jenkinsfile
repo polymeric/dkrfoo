@@ -11,7 +11,6 @@ pipeline {
             agent {
                 docker {
                     image 'qnib/pytest'
-                    label 'dkrpytest'
                 }
             }
             steps {
