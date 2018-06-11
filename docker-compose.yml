@@ -1,10 +1,15 @@
 version: '3'
+networks:
+  dkrtest_foo:
+    driver: bridge
 services:
   web:
     build: .
     container_name: dkrsrv
-    ports:
-      - 5000:5000
-    network_mode: "host"
-    volumes:
-      - .:/dkrsrv
+    networks:
+      - dkrtest_foo
+  test:
+    build: tests/.
+    container_name: dkrtest
+    networks:
+      - dkrtest_foo
