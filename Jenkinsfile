@@ -7,7 +7,7 @@ pipeline {
                 }
             }
             steps{
-              docker-compose up
+              sh 'docker-compose up'
             }
         }
     }
