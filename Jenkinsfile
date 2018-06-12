@@ -1,14 +1,17 @@
 pipeline {
-    agent none
+    agent any
+    environment {
+      COMPOSE_PROJECT_NAME = "${env.JOB_NAME}-${env.BUILD_ID)"
+    }
     stages {
         stage ('Build') {
-            agent { 
-                none 
-            }
             steps{
-              sh '/usr/local/bin/docker-compose up'
+              sh '/usr/local/bin/docker-compose build'
               sh '/usr/local/bin/docker-compose up'
             }
         }
+    post {
+        sh "/usr/local/bin/docker-compose down -v"
+      }
     }
 }
