@@ -7,7 +7,7 @@ pipeline {
                 }
             }
             steps{
-              sh 'docker-compose up'
+              sh '/usr/local/bin/docker-compose up'
             }
         }
     }
