@@ -10,8 +10,8 @@ pipeline {
               sh '/usr/local/bin/docker-compose up'
             }
         }
+    }
     post {
         sh "/usr/local/bin/docker-compose down -v"
-      }
     }
 }
