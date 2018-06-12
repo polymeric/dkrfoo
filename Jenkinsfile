@@ -3,10 +3,10 @@ pipeline {
     stages {
         stage ('Build') {
             agent { 
-                dockerfile {
-                }
+                none 
             }
             steps{
+              sh '/usr/local/bin/docker-compose up'
               sh '/usr/local/bin/docker-compose up'
             }
         }
