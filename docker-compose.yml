@@ -9,6 +9,8 @@ services:
     networks:
       - dkrtest_foo
   test:
+    environment:
+      - is_docker=yes
     build: tests/.
     container_name: dkrtest
     networks:

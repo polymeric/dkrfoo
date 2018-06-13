@@ -1,6 +1,12 @@
 import json
+import os
 import pytest
 import requests
+
+if os.environ.get('is_docker'):
+  SERVER='dkrsrv'
+else:
+  SERVER="0.0.0.0"
 
 
 class TestRestApi(object):
@@ -8,11 +14,12 @@ class TestRestApi(object):
   Test a simple flask api
   """
 
+
   def test_get_store(self):
     """
     Make a simple get request to server
     """
-    r = requests.get('http://dkrsrv:5000/store')
+    r = requests.get('http://{}:5000/store'.format(SERVER))
     assert r.status_code == 200
 
   def test_add_store_entry(self):
@@ -20,14 +27,14 @@ class TestRestApi(object):
     Test new store creation
     """
     payload = {'name': "Victoria's Mad"}
-    r = requests.post('http://dkrsrv:5000/store', json=payload)
+    r = requests.post('http://{}:5000/store'.format(SERVER), json=payload)
     assert u"Victoria's Mad" in json.loads(r.text)['name']
 
   def test_list_new_store_entry(self):
     """
     Test new store entry exists
     """
-    r = requests.get('http://dkrsrv:5000/store')
+    r = requests.get('http://{}:5000/store'.format(SERVER))
     assert "Victoria's Mad" in r.content and r.status_code == 200
 
 '''
