@@ -1,0 +1,6 @@
+FROM python:2.7
+WORKDIR /dkrsrv
+COPY . /dkrsrv
+EXPOSE 5000
+RUN pip install --no-cache-dir -r requirements.txt
+CMD ["python", "src/app.py"]
