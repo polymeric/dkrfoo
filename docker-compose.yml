@@ -4,14 +4,18 @@ networks:
     driver: bridge
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.server
     container_name: dkrsrv
     networks:
       - dkrtest_foo
   test:
     environment:
       - is_docker=yes
-    build: tests/.
+    build:
+      context: tests/.
+      dockerfile: Dockerfile.smoke-test
     container_name: dkrtest
     networks:
       - dkrtest_foo
