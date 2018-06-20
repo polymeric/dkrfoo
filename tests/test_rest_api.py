@@ -3,10 +3,24 @@ import os
 import pytest
 import requests
 
-if os.environ.get('is_docker'):
-  SERVER='dkrsrv'
-else:
-  SERVER="0.0.0.0"
+
+class TestModelFiles(object):
+  """
+  Test access to files
+  """
+
+  @classmethod
+  def setup_class(cls):
+    try:
+      with open('data/random.json','rb') as rj:
+        cls.model_json = json.loads(rj.read().decode('utf-8'))
+      rj.close()
+    except IOError as e:
+      print("ERROR: I/O err: random.json not found.{0}: {1}".format(e.errno, e.strerror))
+
+  def testGetDockerVersion(self):
+    docker_tag = self.model_json[0]['docker_tag']
+    assert "dkrfoo_web:latest" in docker_tag 
 
 
 class TestRestApi(object):
@@ -14,12 +28,18 @@ class TestRestApi(object):
   Test a simple flask api
   """
 
+  @classmethod
+  def setup_class(cls):
+    if os.environ.get('is_docker'):
+      cls.SERVER='dkrsrv'
+    else:
+      cls.SERVER="0.0.0.0"
 
   def test_get_store(self):
     """
     Make a simple get request to server
     """
-    r = requests.get('http://{}:5000/store'.format(SERVER))
+    r = requests.get('http://{}:5000/store'.format(self.SERVER))
     assert r.status_code == 200
 
   def test_add_store_entry(self):
@@ -27,14 +47,14 @@ class TestRestApi(object):
     Test new store creation
     """
     payload = {'name': "Victoria's Mad"}
-    r = requests.post('http://{}:5000/store'.format(SERVER), json=payload)
+    r = requests.post('http://{}:5000/store'.format(self.SERVER), json=payload)
     assert u"Victoria's Mad" in json.loads(r.text)['name']
 
   def test_list_new_store_entry(self):
     """
     Test new store entry exists
     """
-    r = requests.get('http://{}:5000/store'.format(SERVER))
+    r = requests.get('http://{}:5000/store'.format(self.SERVER))
     assert "Victoria's Mad" in r.content and r.status_code == 200
 
 '''

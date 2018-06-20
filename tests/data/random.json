@@ -1,0 +1,8 @@
+[{
+  "id": 1,
+  "version": "4.6.0",
+  "docker_tag": "dkrfoo_web:latest",
+  "owner": "Valery McFeate",
+  "platform": "3.77",
+  "ip_address": "133.6.158.244"
+}]
