@@ -1,4 +1,4 @@
-# jenkins-docker-sidecar-test
+# jenkins-docker-sandbox
 
 
 Two docker containers. A simple flask server with endpoints and a
