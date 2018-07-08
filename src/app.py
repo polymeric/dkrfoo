@@ -1,3 +1,5 @@
+import sys
+
 from flask import Flask,jsonify,request,render_template
 
 app = Flask(__name__)
@@ -7,9 +9,21 @@ stores = [{
     'items': [{'name':'my item', 'price': 15.99 }]
 }]
 
+def shutdown_server():
+  func = request.environ.get('werkzeug.server.shutdown')
+  if func is None:
+    raise RuntimeError('Not running with the Werkzeug Server')
+  func()
+
+
 @app.route('/')
 def home():
   return render_template('index.html')
+
+@app.route('/stop', methods=['POST'])
+def stop_server():
+  shutdown_server()
+  return 'Server shutting down...'
 
 #post /store data: {name :}
 @app.route('/store' , methods=['POST'])

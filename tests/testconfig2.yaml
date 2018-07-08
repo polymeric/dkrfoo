@@ -1,0 +1,25 @@
+---
+test 1:
+  config_name: "tls-disabled"
+  test_filename: 'tests/test_rest_api.py'
+  base_url: "http://0.0.0.0:5000"
+  Dockerfile: "Dockerfile.server"
+  ComposeFile: "docker-compose.yml"
+  docker_image: "dkrsrv"
+  docker_run_vars:
+    - "-e IS_DOCKER=YES"
+    - "-v $(pwd)test/data:/data"
+    - "--rm"
+    - "-p 5000:5000"
+    - "--network=drktest_foo"
+---
+test 2:
+  config_name: "tls-enabled"
+  test_filename: 'tests/test_rest_api.py'
+  base_url: "http://0.0.0.0:5000"
+  docker_images:
+    - "dkrsrv"
+    - "IS_DOCKER=YES"
+    - "-v $(pwd)test/data:/data"
+    - "--rm"
+    - "-p 5000:5000"

@@ -12,7 +12,7 @@ class TestModelFiles(object):
   @classmethod
   def setup_class(cls):
     try:
-      with open('data/random.json','rb') as rj:
+      with open('tests/data/random.json','rb') as rj:
         cls.model_json = json.loads(rj.read().decode('utf-8'))
       rj.close()
     except IOError as e:
@@ -35,27 +35,36 @@ class TestRestApi(object):
     else:
       cls.SERVER="0.0.0.0"
 
-  def test_get_store(self):
+  def test_get_store_01(self):
     """
     Make a simple get request to server
     """
     r = requests.get('http://{}:5000/store'.format(self.SERVER))
     assert r.status_code == 200
 
-  def test_add_store_entry(self):
+  def test_add_store_entry_02(self):
     """
     Test new store creation
     """
     payload = {'name': "Victoria's Mad"}
     r = requests.post('http://{}:5000/store'.format(self.SERVER), json=payload)
-    assert u"Victoria's Mad" in json.loads(r.text)['name']
+    assert "Victoria's Mad" in json.loads(r.text)['name']
 
-  def test_list_new_store_entry(self):
+  def test_list_new_store_entry_03(self):
     """
     Test new store entry exists
     """
     r = requests.get('http://{}:5000/store'.format(self.SERVER))
-    assert "Victoria's Mad" in r.content and r.status_code == 200
+    assert "Victoria\'s Mad" in r.text and r.status_code == 200
+
+  #@pytest.mark.skip(reason="no way of currently testing this")
+  def test_stop_server_04(self):
+    """
+    Test that we successfully stop server app
+    """
+    r = requests.post('http://{}:5000/stop'.format(self.SERVER))
+    assert 'Server shutting down' in r.text
+
 
 '''
 o 2110  curl -d '{"item":"baked-ham"}' -H "Content-Type: application/json" 'http://dkrsrv:5000/store/blah' -X POST
